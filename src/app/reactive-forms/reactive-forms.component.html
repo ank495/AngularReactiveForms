@@ -1,0 +1,120 @@
+<B> User Form</B>
+<form (ngSubmit)="userFormSubmit()"
+      [formGroup]="userInfoForm">
+  <div>
+    <label for="firstName">First Name : </label>
+    <input type="text"
+           formControlName="firstName"
+           [ngClass]="{'is-valid': (userInfoForm.controls.firstName.touched || userInfoForm.controls.firstName.dirty) && !userInfoForm.controls.firstName.valid}">
+           <span *ngIf="userInfoForm.controls.firstName.touched || userInfoForm.controls.firstName.dirty && !userInfoForm.controls.firstName.valid">
+             <span *ngIf="userInfoForm.controls.firstName.errors?.required" style="color: red;">Please enter first Name</span>
+             <span *ngIf="userInfoForm.controls.firstName.errors?.minlength" style="color: red;">Minlength should be 3</span>
+           </span>
+  </div>
+  <div>
+    <label for="lastName">Last Name : </label>
+    <input type="text"
+          formControlName="lastName"   [ngClass]="{'is-valid': (userInfoForm.controls.lastName.touched || userInfoForm.controls.lastName.dirty) && !userInfoForm.controls.lastName.valid}">
+          <span *ngIf="userInfoForm.controls.lastName.touched || userInfoForm.controls.lastName.dirty && !userInfoForm.controls.lastName.valid">
+            <span *ngIf="userInfoForm.controls.lastName.errors?.required" style="color: red;">Please enter last Name</span>
+            <span *ngIf="userInfoForm.controls.lastName.errors?.minlength" style="color: red;">Minlength should be 3</span>
+          </span>
+  </div>
+  <div>
+    <label for="age">Age : </label>
+    <input type="text"
+           formControlName="age"
+           [ngClass]="{'is-valid': errorMessage}">
+           <span *ngIf="errorMessage">
+             {{errorMessage}}
+           </span>
+  </div>
+  <div>
+    <label for="sex">Sex : </label>
+    <input type="text"
+          formControlName="sex"
+          [ngClass]="{'is-valid': (userInfoForm.controls.sex.touched || userInfoForm.controls.sex.dirty) && !userInfoForm.controls.sex.valid}">
+          <span *ngIf="userInfoForm.controls.sex.touched || userInfoForm.controls.sex.dirty && !userInfoForm.controls.sex.valid">
+            <span *ngIf="userInfoForm.controls.sex.errors?.required" style="color: red;">Please enter sex</span>
+          </span>
+  </div>
+  <div>
+    <label for="email">Email : </label>
+    <input type="email"
+          formControlName="email">
+  </div>
+  <div>
+    <label for="phone">Phone : </label>
+    <input type="tel"
+          formControlName="phone"
+          [ngClass]="{'is-valid': (userInfoForm.controls.phone.touched || userInfoForm.controls.phone.dirty) && !userInfoForm.controls.phone.valid}">
+          <span *ngIf="userInfoForm.controls.phone.touched || userInfoForm.controls.phone.dirty && !userInfoForm.controls.phone.valid">
+            <span *ngIf="userInfoForm.controls.phone.errors?.required" style="color: red;">Please enter phone</span>
+          </span>
+  </div>
+  <div>
+    <label for="rating">Rating : </label>
+    <input type="number"
+          formControlName="rating"
+          [ngClass]="{'is-valid': (userInfoForm.controls.phone.touched || userInfoForm.controls.phone.dirty) && !userInfoForm.controls.phone.valid}">
+          <span *ngIf="userInfoForm.controls.rating.touched || userInfoForm.controls.rating.dirty && !userInfoForm.controls.rating.valid">
+            <span *ngIf="userInfoForm.controls.rating.errors?.rating" style="color: red;">Enter the valid rasting between 1 and 5</span>
+          </span>
+  </div>
+  <div formGroupName="timeLine">
+    <div>
+      <label for="startDate">Start Date : </label>
+      <input type="datetime-local"
+            formControlName="startDate"
+            [ngClass]="{'is-valid': (userInfoForm.controls.timeLine.get('startDate')?.touched || userInfoForm.controls.timeLine.get('startDate')?.dirty) && !userInfoForm.controls.timeLine.get('startDate')?.valid}">
+            <span *ngIf="userInfoForm.controls.timeLine.get('startDate')?.touched">
+              <span *ngIf="userInfoForm.controls.timeLine.get('startDate')?.errors?.required" style="color: red;">Enter the start date</span>
+            </span>
+    </div>
+    <div>
+      <label for="endDate">End Date : </label>
+      <input type="datetime-local"
+            formControlName="endDate"
+            [ngClass]="{'is-valid': (userInfoForm.controls.timeLine.get('endDate')?.touched || userInfoForm.controls.timeLine.get('endDate')?.dirty) && !userInfoForm.controls.timeLine.get('endDate')?.valid}">
+            <span *ngIf="userInfoForm.controls.timeLine.get('endDate')?.touched">
+              <span *ngIf="userInfoForm.controls.timeLine.get('endDate')?.errors?.required" style="color: red;">Enter the end date</span>
+              <span *ngIf="userInfoForm.controls.timeLine.get('endDate')?.errors?.datemismatch" style="color: red;">Start date should be less than end date</span>
+            </span>
+    </div>
+    </div>
+    <div formArrayName="adresses" *ngFor="let adres of Adresses.controls;let i = index">
+      {{i}}
+      {{Adresses.controls}}
+      <div [formGroupName]="i">
+        <label attr.for="{{'address' + i}}">Address : </label>
+        <input type="text"
+               id="{{'address' + i}}"
+        formControlName="address">
+        <label attr.for="{{'city' + i}}">City : </label>
+        <input type="text" id="{{'city' + i}}"
+              formControlName="city">
+        <label attr.for="{{'state' + i}}">State : </label>
+        <input type="text" id="{{'state' + i}}"
+                formControlName="state">
+      </div>
+    </div>
+    <button (click)="addAdress()">Add Adress</button>
+  <div>
+    <label for="notification">Send Notification : </label>
+    <label for="email">Email</label>
+    <input type="radio"
+          formControlName="notification"
+          value="email">
+    <label for="phone">Phone</label>
+    <input type="radio"
+          formControlName="notification"
+          value="phone">
+  </div>
+  <button type="submit">Submit</button>
+  <button (click)="setValue()">Set Value</button>
+  <button (click)="patchValue()">Patch Value</button>
+</form>
+
+Dirty : {{userInfoForm.dirty}}
+Valid : {{userInfoForm.valid}}
+Values : {{userInfoForm.value | json}}

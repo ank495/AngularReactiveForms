@@ -1,0 +1,41 @@
+<div class="container">
+  <form (ngSubmit)="submitLoginForm(loginForm)" #loginForm=ngForm>
+    <div>
+      <label for="username">Username : </label>
+      <input type="text"
+            name="username"
+            required
+            minlength="3"
+            [(ngModel)]="login.username"
+            #usernameVal = "ngModel"
+            [ngClass]="{'is-valid': (usernameVal.touched || usernameVal.dirty) && !usernameVal.valid}">
+      <span *ngIf="usernameVal.touched || usernameVal.dirty && !usernameVal.valid">
+        <span *ngIf="usernameVal.errors?.required" style="color: red;">Please enter username</span>
+        <span *ngIf="usernameVal.errors?.minlength" style="color: red;">Minlength should be 3</span>
+      </span>
+    </div>
+    <div>
+      <label for="password">Password : </label>
+      <input type="password"
+            name="password"
+            appPasswordValidator
+            required
+            minlength="4"
+            [(ngModel)]="login.password"
+            #passwordVal = "ngModel"
+            [ngClass]="{'is-valid': (passwordVal.touched || passwordVal.dirty) && !passwordVal.valid}">
+      <span *ngIf="passwordVal.touched || passwordVal.dirty && !passwordVal.valid">
+        <span *ngIf="passwordVal.errors?.required" style="color: red;">Please enter password</span>
+        <span *ngIf="passwordVal.errors?.minlength" style="color:red;">Minlength should be 4</span>
+        <span *ngIf="passwordVal.hasError('emailvalidator')">
+          Please provide a valid email address
+        </span>
+      </span>
+    </div>
+    <button type="submit" [disabled]= "!loginForm.valid">Submit</button>
+  </form>
+</div>
+
+Dirty : {{loginForm.dirty}}
+Valid : {{loginForm.valid}}
+Values : {{loginForm.value | json}}

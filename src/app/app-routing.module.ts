@@ -1,7 +1,14 @@
-import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-const routes: Routes = [];
+import { NgModule } from '@angular/core';
+
+const routes: Routes = [{
+  path:'Template',
+  loadChildren: () => import('./template-driven/template-forms.module').then(m => m.TemplateFormsModule)
+}, {
+  path: 'Reactive',
+  loadChildren: () => import('./reactive-forms/reactive-forms.module').then(m => m.ReactiveFormsModule)
+}];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
